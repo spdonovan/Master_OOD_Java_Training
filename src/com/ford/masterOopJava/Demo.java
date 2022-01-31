@@ -1,19 +1,38 @@
 package com.ford.masterOopJava;
 
+import com.ford.masterOopJava.Money;
+import  com.ford.masterOopJava.MoneyRate;
+
+import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 public class Demo {
 
+    private MoneyRate perHour(double amount) { return MoneyRate.hourly(new Money(new BigDecimal(amount))); }
+
+    private List<Painter> createPainters1() {
+        return Arrays.asList(
+                new ProportionalPainter("Joe", 2.12, this.perHour(44)),
+                new ProportionalPainter("Jill", 4.16, this.perHour(60)),
+                new ProportionalPainter("Jack", 1.19, this.perHour(16))
+        );
+    }
+
+    private void print(List<Painter> painters) {
+        System.out.println("Painters:");
+        for (Painter painter: painters) {
+            System.out.println(painter);
+        }
+    }
+
     private static Optional<Painter> findCheapest(double sqMeters, List<Painter> painters) {
         return Painter.stream(painters).available().cheapest(sqMeters);
 
     }
-
-
-
     private static Money getTotalCost(double sqMeters, List<Painter> painters) {
         return painters.stream()
                 .filter(Painter::isAvailable)
@@ -37,5 +56,14 @@ public class Demo {
                 });
     }
 
-    public void run(){}
+    public void run(){
+        List<Painter> painters1 = this.createPainters1();
+        double sqMeters = 200;
+
+        this.print(painters1);
+
+        System.out.println();
+        System.out.println("Demo #1 - Letting all painters work together");
+        this.workTogether(sqMeters, painters1);
+    }
 }

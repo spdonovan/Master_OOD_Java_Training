@@ -2,6 +2,7 @@ package com.ford.masterOopJava;
 
 import java.time.Duration;
 import java.util.List;
+import com.ford.masterOopJava.Money;
 
 public interface Painter {
     boolean isAvailable();
